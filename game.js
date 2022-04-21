@@ -10,37 +10,58 @@ function computerPlay() {
 }
 
 
-function playRound(playerSelection, computerSelection) {
+function playRound(computerSelection) {
     
     let numPlayerSelection = 0;
-    if (playerSelection.toUpperCase() === "ROCK") {
-        numPlayerSelection = 1
-    } else if (playerSelection.toUpperCase() === "PAPER") {
-        numPlayerSelection = 2
-    } else if (playerSelection.tuUpperCase() === "SCISSORS") {
-        numPlayerSelection = 3
-    } else {
-        alert("Input is invalid")
+    while (true) {
+        let playerSelection = window.prompt("Rock, paper or scissors?")
+        if (playerSelection.toUpperCase() === "ROCK") {
+            numPlayerSelection = 1
+            break;
+        } else if (playerSelection.toUpperCase() === "PAPER") {
+            numPlayerSelection = 2
+            break;
+        } else if (playerSelection.toUpperCase() === "SCISSORS") {
+            numPlayerSelection = 3
+            break;
+        } else {
+            alert("Input is invalid")
+        }
     }
-    let playerSelectionString = playerSelection.toUpperCase();
-    let compPlayString = "";
-    if (computerSelection === 1) {
-        compPlayString = "ROCK"
-    } else if (computerSelection === 2) {
-        compPlayString = "PAPER"
-    } else if (computerSelection === 3) {
-        compPlayString = "SCISSORS"
-    }
-
+    
     let result = computerSelection - numPlayerSelection;
 
     if (result === 1 || result === -2) {
-        return `You Lose! ${compPlayString} beats ${playerSelectionString}` 
+        return false; 
     } else if (result === 0) {
-        return "It's a tie!"
+        return 0;
     } else {
-        return `You Win! ${playerSelectionString} beats ${compPlayString}` 
+        return true; 
     }
 }
 
-console.log(playRound("paper", computerPlay()))
+function game() {
+    let playerScore = 0;
+    let compScore = 0;
+    for (let i = 0; i < 5; i++) { 
+        let result = playRound(computerPlay());
+        if (result) {
+            playerScore++
+            console.log("You win a round")
+        } else if (!result) {
+            compScore++
+            console.log("You lose a round")
+        } else {
+            console.log("It' a tie")
+        }
+    }
+    if (playerScore > compScore) {
+        console.log("You win a game")
+    } else if (playerScore < compScore) {
+        console.log("You loose a game")
+    } else {
+        console.log("It's a miracle, a tie!")
+    }
+}
+
+game()
