@@ -1,0 +1,11 @@
+body, .playfield {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn, .btns, .results {
+    display: flex;
+    gap: 2em;
+    padding: 1.5em;
+}

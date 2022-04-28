@@ -9,25 +9,17 @@ function computerPlay() {
     return result;
 }
 
-
-function playRound(computerSelection) {
+function playRound(playerSelection, computerSelection) {
     
     let numPlayerSelection = 0;
-    while (true) {
-        let playerSelection = window.prompt("Rock, paper or scissors?")
-        if (playerSelection.toUpperCase() === "ROCK") {
-            numPlayerSelection = 1
-            break;
-        } else if (playerSelection.toUpperCase() === "PAPER") {
-            numPlayerSelection = 2
-            break;
-        } else if (playerSelection.toUpperCase() === "SCISSORS") {
-            numPlayerSelection = 3
-            break;
-        } else {
-            alert("Input is invalid")
-        }
-    }
+
+    if (playerSelection.toUpperCase() === "ROCK") {
+        numPlayerSelection = 1
+    } else if (playerSelection.toUpperCase() === "PAPER") {
+        numPlayerSelection = 2
+    } else if (playerSelection.toUpperCase() === "SCISSORS") {
+        numPlayerSelection = 3
+    } 
     
     let result = computerSelection - numPlayerSelection;
 
@@ -40,28 +32,46 @@ function playRound(computerSelection) {
     }
 }
 
-function game() {
-    let playerScore = 0;
-    let compScore = 0;
-    for (let i = 0; i < 5; i++) { 
-        let result = playRound(computerPlay());
-        if (result) {
-            playerScore++
-            console.log("You win a round")
-        } else if (!result) {
-            compScore++
-            console.log("You lose a round")
-        } else {
-            console.log("It' a tie")
-        }
-    }
-    if (playerScore > compScore) {
-        console.log("You win a game")
-    } else if (playerScore < compScore) {
-        console.log("You loose a game")
+const btns = document.querySelectorAll('.btns');
+let playerSelection = "";
+let roundResult;
+btns.forEach(btn => btn.addEventListener('click', (e) => {
+    playerSelection = e.target.innerText;
+    roundResult = playRound(playerSelection, computerPlay());
+    res.textContent = "";
+    game(roundResult);
+}));
+let playerScore = 0;
+let compScore = 0;
+let rounds = 0; 
+const res = document.querySelector('#res');
+
+
+function game(roundResult) {
+    
+
+    if (roundResult) {
+        playerScore++
+        rounds++;
+    } else if (!roundResult) {
+        compScore++;
+        rounds++;
     } else {
-        console.log("It's a miracle, a tie!")
+        rounds++;
+    }
+    const textcompScore = document.querySelector('#compScore');
+    const textplayerScore = document.querySelector('#playerScore');
+    textplayerScore.textContent = `Player Score: ${playerScore}`;
+    textcompScore.textContent = `Computer Score: ${compScore}`;
+
+    if (rounds === 5) {
+        if (playerScore > compScore) {
+            res.textContent = "You win a game";
+        } else {
+            res.textContent = "You loose a game";
+        }
+        playerScore = 0;
+        compScore = 0;
+        rounds = 0; 
     }
 }
-
-game()
